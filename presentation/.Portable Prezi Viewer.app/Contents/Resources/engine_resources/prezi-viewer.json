@@ -1,0 +1,19 @@
+{
+	"viewer.navigation.pitch.enable_parent_selection": false,
+
+	"viewer.camera.rotate.snap_threshold": 0.7,
+
+	"viewer.navigation.fly_to_speed": 1.0,
+	"viewer.camera.zoom.min_spring_factor": 0.8,
+	"viewer.camera.zoom.max_spring_factor": 2.0,
+
+	"viewer.navigation.path_step_speed": 1.0,
+	"viewer.navigation.fly_on_single_tap": true,
+
+	"viewer.navigation.core.overview_zoom": 0.8,
+
+	"viewer.gestures.drag.minimum_distance": 15,
+
+	"viewer.assets.disable_download": true,
+	"viewer.view.video.show_play_button": false
+}
