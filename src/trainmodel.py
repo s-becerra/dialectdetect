@@ -160,7 +160,7 @@ def train_model(X_train,y_train, batch_size=64):
     es = EarlyStopping(monitor='acc', min_delta=.005, patience=10, verbose=1, mode='auto')
 
     # Creates log file for graphical interpretation using TensorBoard
-    tb = TensorBoard(log_dir='./logs', histogram_freq=0, batch_size=32, write_graph=True, write_grads=True,
+    tb = TensorBoard(log_dir='../logs', histogram_freq=0, batch_size=32, write_graph=True, write_grads=True,
                      write_images=True, embeddings_freq=0, embeddings_layer_names=None,
                      embeddings_metadata=None)
 
@@ -182,7 +182,7 @@ def save_model(model, model_filename):
     :param model_filename: Filename
     :return: None
     '''
-    model.save('models/{}.h5'.format(model_filename))  # creates a HDF5 file 'my_model.h5'
+    model.save('../models/{}.h5'.format(model_filename))  # creates a HDF5 file 'my_model.h5'
 
 if __name__ == '__main__':
     # Load arguments
