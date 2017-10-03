@@ -1,5 +1,4 @@
-## Readme
-# Native Language classification
+# Native Language Classification
 
 ## Overview
 
@@ -45,6 +44,6 @@ TODO
 ## Performance
 |Act/Pred|English|Arabic|Mandarin|
 |:-:|:-:|:-:|:-:|
-|English|12|1|1|
-|Arabic|5|8|1|
-|Mandarin|1|1|14|
+|**English**|12|1|1|
+|**Arabic**|5|8|1|
+|**Mandarin**|1|1|14|
