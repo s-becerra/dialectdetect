@@ -30,18 +30,18 @@ For the purpose of this project, I focused on countries with the most abundant a
 ## Model
 Converted wav audio files into Mel Frequency Cepstral Coefficients graph.
 
-![MFCC](https://github.com/srbecerra/dialectdetect/tree/master/img/mfcc.jpg)
+<img alt="MFCC" src="https://github.com/srbecerra/dialectdetect/tree/master/img/mfcc.jpg" width=800>
 
 The MFCC was fed into a 2 Dimensional Convolutional Neural Network (CNN) to predict the native language class.
 
-![CNN](https://github.com/srbecerra/dialectdetect/tree/master/img/CNN.png) Graph is for illustration purposes only.
+<img alt="CNN" src="https://github.com/srbecerra/dialectdetect/tree/master/img/CNN.png" width=800> Graph is for illustration purposes only.
 
 ## Challenges & Solutions
 * Computationally expensive
   * Created an Amazon Web Services Elastic Compute Cloud (EC2) instance that allowed for splitting workload over 32 cores.
 * Small dataset
   * MFCCs were sliced into smaller segments. These smaller segments were fed into the neural network where predictions were made. Using an ensembling method, a majority vote was taken to predict the native language class.
-![ensemble](https://github.com/srbecerra/dialectdetect/tree/master/img/eensemble.png)
+<img alt='ensembling' src="https://github.com/srbecerra/dialectdetect/tree/master/img/ensemble.png"
 
 ## Running Model
 ```  
