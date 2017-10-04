@@ -28,18 +28,53 @@ I started with the data from The Speech Accent Archive, a collection of 2447 aud
 For the purpose of this project, I focused on countries with the most abundant audio samples, and the languages that have distinctly different origins. I chose to work with English, Arabic, and Mandarin. After some filtering and to maintain a balanced dataset, I could only use 73 audio samples from each of the three languages.
 
 ## Model
-Converted wav audio files into Mel Frequency Cepstral Coefficients graph. Fed into a 2D Convolutional Network to predict native language class.
+Converted wav audio files into Mel Frequency Cepstral Coefficients graph.
+![MFCC](https://github.com/srbecerra/dialectdetect/tree/master/img/mfcc.jpg)
+The MFCC was fed into a 2 Dimensional Convolutional Neural Network (CNN) to predict the native language class.
+![CNN](https://github.com/srbecerra/dialectdetect/tree/master/img/CNN.png) Graph is for illustration purposes only.
 
 ## Challenges & Solutions
 * Computationally expensive
+  * Created an Amazon Web Services Elastic Compute Cloud (EC2) instance that allowed for splitting workload over 32 cores.
 * Small dataset
-
-Created an Amazon Web Services Elastic Compute Cloud (EC2) instance that allowed for splitting workload over 32 cores.
-
-MFCCs were sliced into smaller segments and randomly horizontally shifted after each epoch.
+  * MFCCs were sliced into smaller segments. These smaller segments were fed into the neural network where predictions were made. Using an ensembling method, a majority vote was taken to predict the native language class.
+![ensemble](https://github.com/srbecerra/dialectdetect/tree/master/img/eensemble.png)
 
 ## Running Model
-TODO
+```  
+  ├── README.md  
+  ├── src   
+  │     ├── accuracy.py
+  |     ├── fromwebsite.py
+  |     ├── getaudio.py
+  │     ├── getsplit.py
+  |     ├── trainmodel.py
+  ├── models  
+  │     ├── cnn_model138.h5
+  ├── logs  
+  │     ├── events.out.tfevents.1506987325.ip-172-31-47-225
+  └── audio
+```
+
+###### To download language metadata from [The Speech Accent Archive](http://accent.gmu.edu/index.php) and download audio files:
+1. Run fromwebsite.py to get language metadata and save data to bio_metadata.csv
+  `python fromwebsite.py bio_metadata.csv mandarin english arabic`
+2. Run getaudio.py to download audio files to the audio directory. All audio files listed in bio_metadata.csv will be downloaded.
+  `python GetAudio.py bio_metadata.csv`
+
+###### To filter audio samples to feed into the CNN:
+1. Edit the filter_df method in getsplit.py
+  * This will filter audio files from bio_metadata.csv when calling trainmodel.py
+
+###### To make predictions on audio files:
+1. Run trainmodel.py to train the CNN
+  `python bio_metadata.csv model50`
+  * Running trainmodel.py will save the trained model as model50.h5 in the model directory and output the results to the console.
+  * This script will also save a TensorBoard log file into the logs directory.
+
+
+## Performance
+Depending on how many languages you use and parameter tweaking, the number of training MFCC segments can vary. During the training of my model, I had roughly 6500 training MFCC segments and validated my results on 44 unsegmented audio files. 
 
 ## Performance
 |Act/Pred|English|Arabic|Mandarin|

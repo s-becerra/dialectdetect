@@ -124,7 +124,7 @@ def create_dataframe(languages):
 if __name__ == '__main__':
     '''
     console command example:
-    python fromwebsite.py mandarin english arabic
+    python fromwebsite.py bio_metadata.csv mandarin english arabic
     '''
 
     df = None
@@ -151,5 +151,3 @@ if __name__ == '__main__':
     df.drop_duplicates(subset='language_num',inplace=True)
 
     df.to_csv(destination_file,index=False)
-
-    df.to_csv(destination_file)

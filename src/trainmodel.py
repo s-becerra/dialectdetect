@@ -185,6 +185,11 @@ def save_model(model, model_filename):
     model.save('../models/{}.h5'.format(model_filename))  # creates a HDF5 file 'my_model.h5'
 
 if __name__ == '__main__':
+    '''
+        Console command example:
+        python bio_metadata.csv model50
+        '''
+
     # Load arguments
     file_name = sys.argv[1]
     model_filename = sys.argv[2]
