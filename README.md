@@ -29,8 +29,11 @@ For the purpose of this project, I focused on countries with the most abundant a
 
 ## Model
 Converted wav audio files into Mel Frequency Cepstral Coefficients graph.
+
 ![MFCC](https://github.com/srbecerra/dialectdetect/tree/master/img/mfcc.jpg)
+
 The MFCC was fed into a 2 Dimensional Convolutional Neural Network (CNN) to predict the native language class.
+
 ![CNN](https://github.com/srbecerra/dialectdetect/tree/master/img/CNN.png) Graph is for illustration purposes only.
 
 ## Challenges & Solutions
@@ -58,9 +61,15 @@ The MFCC was fed into a 2 Dimensional Convolutional Neural Network (CNN) to pred
 
 ###### To download language metadata from [The Speech Accent Archive](http://accent.gmu.edu/index.php) and download audio files:
 1. Run fromwebsite.py to get language metadata and save data to bio_metadata.csv
-  `python fromwebsite.py bio_metadata.csv mandarin english arabic`
+
+Example:
+
+`python fromwebsite.py bio_metadata.csv mandarin english arabic`
 2. Run getaudio.py to download audio files to the audio directory. All audio files listed in bio_metadata.csv will be downloaded.
-  `python GetAudio.py bio_metadata.csv`
+
+Example:
+
+`python GetAudio.py bio_metadata.csv`
 
 ###### To filter audio samples to feed into the CNN:
 1. Edit the filter_df method in getsplit.py
@@ -68,13 +77,17 @@ The MFCC was fed into a 2 Dimensional Convolutional Neural Network (CNN) to pred
 
 ###### To make predictions on audio files:
 1. Run trainmodel.py to train the CNN
-  `python bio_metadata.csv model50`
+
+Example:
+
+`python trainmodel.py bio_metadata.csv model50`
+
   * Running trainmodel.py will save the trained model as model50.h5 in the model directory and output the results to the console.
   * This script will also save a TensorBoard log file into the logs directory.
 
 
 ## Performance
-Depending on how many languages you use and parameter tweaking, the number of training MFCC segments can vary. During the training of my model, I had roughly 6500 training MFCC segments and validated my results on 44 unsegmented audio files. 
+Depending on how many languages you use and parameter tweaking, the number of training MFCC segments can vary. During the training of my model, I had roughly 6500 training MFCC segments and validated my results on 44 unsegmented audio files.
 
 ## Performance
 |Act/Pred|English|Arabic|Mandarin|
