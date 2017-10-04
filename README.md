@@ -42,7 +42,7 @@ The MFCC was fed into a 2 Dimensional Convolutional Neural Network (CNN) to pred
   * Created an Amazon Web Services Elastic Compute Cloud (EC2) instance that allowed for splitting workload over 32 cores.
 * Small dataset
   * MFCCs were sliced into smaller segments. These smaller segments were fed into the neural network where predictions were made. Using an ensembling method, a majority vote was taken to predict the native language class.
-<img alt='ensembling' src="img/ensemble.png"
+<img alt='ensembling' src="img/ensemble.png" width=800>
 
 ## Running Model
 ```  
@@ -92,6 +92,8 @@ Example:
 Depending on how many languages you use and parameter tweaking, the number of training MFCC segments can vary. During the training of my model, I had roughly 6500 training MFCC segments and validated my results on 44 unsegmented audio files.
 
 ## Performance
+With the three language classification, the model was able to predict the correct native language around 85% accuracy when given an English sample, 57% accuracy when given an Arabic sample, and an 87% when given a Mandarin sample.
+
 |Act/Pred|English|Arabic|Mandarin|
 |:-:|:-:|:-:|:-:|
 |**English**|12|1|1|
