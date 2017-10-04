@@ -34,7 +34,8 @@ Converted wav audio files into Mel Frequency Cepstral Coefficients graph.
 
 The MFCC was fed into a 2 Dimensional Convolutional Neural Network (CNN) to predict the native language class.
 
-<img alt="CNN" src="img/CNN.png" width=800> Graph is for illustration purposes only.
+<img alt="CNN" src="img/CNN.png" width=800>
+    * Graph is for illustration purposes only.
 
 ## Challenges & Solutions
 * Computationally expensive
