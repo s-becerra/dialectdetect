@@ -30,18 +30,18 @@ For the purpose of this project, I focused on countries with the most abundant a
 ## Model
 Converted wav audio files into Mel Frequency Cepstral Coefficients graph.
 
-<img alt="MFCC" src="https://github.com/srbecerra/dialectdetect/tree/master/img/mfcc.jpg" width=800>
+<img alt="MFCC" src="img/mfcc.jpg" width=800>
 
 The MFCC was fed into a 2 Dimensional Convolutional Neural Network (CNN) to predict the native language class.
 
-<img alt="CNN" src="https://github.com/srbecerra/dialectdetect/tree/master/img/CNN.png" width=800> Graph is for illustration purposes only.
+<img alt="CNN" src="img/CNN.png" width=800> Graph is for illustration purposes only.
 
 ## Challenges & Solutions
 * Computationally expensive
   * Created an Amazon Web Services Elastic Compute Cloud (EC2) instance that allowed for splitting workload over 32 cores.
 * Small dataset
   * MFCCs were sliced into smaller segments. These smaller segments were fed into the neural network where predictions were made. Using an ensembling method, a majority vote was taken to predict the native language class.
-<img alt='ensembling' src="https://github.com/srbecerra/dialectdetect/tree/master/img/ensemble.png"
+<img alt='ensembling' src="img/ensemble.png"
 
 ## Running Model
 ```  
@@ -65,6 +65,7 @@ The MFCC was fed into a 2 Dimensional Convolutional Neural Network (CNN) to pred
 Example:
 
 `python fromwebsite.py bio_metadata.csv mandarin english arabic`
+
 2. Run getaudio.py to download audio files to the audio directory. All audio files listed in bio_metadata.csv will be downloaded.
 
 Example:
@@ -73,7 +74,7 @@ Example:
 
 ###### To filter audio samples to feed into the CNN:
 1. Edit the filter_df method in getsplit.py
-  * This will filter audio files from bio_metadata.csv when calling trainmodel.py
+    * This will filter audio files from bio_metadata.csv when calling trainmodel.py
 
 ###### To make predictions on audio files:
 1. Run trainmodel.py to train the CNN
@@ -93,5 +94,5 @@ Depending on how many languages you use and parameter tweaking, the number of tr
 |Act/Pred|English|Arabic|Mandarin|
 |:-:|:-:|:-:|:-:|
 |**English**|12|1|1|
-|**Arabic**|5|8|1|
+|**Arabic**|1|8|5|
 |**Mandarin**|1|1|14|
