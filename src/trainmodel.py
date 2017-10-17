@@ -21,7 +21,7 @@ SILENCE_THRESHOLD = .01
 RATE = 24000
 N_MFCC = 13
 COL_SIZE = 30
-EPOCHS = 35#250
+EPOCHS = 10#35#250
 
 def to_categorical(y):
     '''
@@ -41,7 +41,7 @@ def get_wav(language_num):
     :param language_num (list): list of file names
     :return (numpy array): Down-sampled wav file
     '''
-    y, sr = librosa.load('audio/{}.wav'.format(language_num))
+    y, sr = librosa.load('../audio/{}.wav'.format(language_num))
     return(librosa.core.resample(y=y,orig_sr=sr,target_sr=RATE, scale=True))
 
 def to_mfcc(wav):
@@ -116,7 +116,7 @@ def create_segmented_mfccs(X_train):
     return(segmented_mfccs)
 
 
-def train_model(X_train,y_train, batch_size=64):
+def train_model(X_train,y_train,X_validation,y_validation, batch_size=128): #64
     '''
     Trains 2D convolutional neural network
     :param X_train: Numpy array of mfccs
@@ -127,11 +127,14 @@ def train_model(X_train,y_train, batch_size=64):
     # Get row, column, and class sizes
     rows = X_train[0].shape[0]
     cols = X_train[0].shape[1]
+    val_rows = X_validation[0].shape[0]
+    val_cols = X_validation[0].shape[1]
     num_classes = len(y_train[0])
 
     # input image dimensions to feed into 2D ConvNet Input layer
     input_shape = (rows, cols, 1)
     X_train = X_train.reshape(X_train.shape[0], rows, cols, 1 )
+    X_validation = X_validation.reshape(X_validation.shape[0],val_rows,val_cols,1)
 
 
     print('x_train shape:', X_train.shape)
@@ -139,16 +142,17 @@ def train_model(X_train,y_train, batch_size=64):
 
     model = Sequential()
 
-    model.add(Conv2D(32, kernel_size=(3,3), activation='tanh',
+    model.add(Conv2D(32, kernel_size=(3,3), activation='relu',
                      data_format="channels_last",
                      input_shape=input_shape))
 
-    model.add(Conv2D(64,kernel_size=(3,3), activation='tanh'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Conv2D(64,kernel_size=(3,3), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
 
     model.add(Flatten())
-    model.add(Dense(128, activation='tanh'))
+    model.add(Dense(128, activation='relu'))
     model.add(Dropout(0.5))
 
     model.add(Dense(num_classes, activation='softmax'))
@@ -171,7 +175,7 @@ def train_model(X_train,y_train, batch_size=64):
     model.fit_generator(datagen.flow(X_train, y_train, batch_size=batch_size),
                         steps_per_epoch=len(X_train) / 32
                         , epochs=EPOCHS,
-                        callbacks=[es,tb])
+                        callbacks=[es,tb], validation_data=(X_validation,y_validation))
 
     return (model)
 
@@ -187,7 +191,7 @@ def save_model(model, model_filename):
 if __name__ == '__main__':
     '''
         Console command example:
-        python bio_metadata.csv model50
+        python trainmodel.py bio_metadata.csv model50
         '''
 
     # Load arguments
@@ -227,12 +231,13 @@ if __name__ == '__main__':
 
     # Create segments from MFCCs
     X_train, y_train = make_segments(X_train, y_train)
+    X_validation, y_validation = make_segments(X_test, y_test)
 
     # Randomize training segments
     X_train, _, y_train, _ = train_test_split(X_train, y_train, test_size=0)
 
     # Train model
-    model = train_model(np.array(X_train), np.array(y_train))
+    model = train_model(np.array(X_train), np.array(y_train), np.array(X_validation),np.array(y_validation))
 
     # Make predictions on full X_test MFCCs
     y_predicted = accuracy.predict_class_all(create_segmented_mfccs(X_test), model)
